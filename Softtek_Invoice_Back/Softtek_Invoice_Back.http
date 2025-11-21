@@ -1,0 +1,6 @@
+@Softtek_Invoice_Back_HostAddress = http://localhost:5193
+
+GET {{Softtek_Invoice_Back_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
