@@ -5,6 +5,8 @@ VisualStudioVersion = 17.14.36623.8 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softtek_Invoice_Back", "Softtek_Invoice_Back.csproj", "{EFA0916D-3FC4-435D-9E4A-018E4EC14689}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softtek_Invoice_Back.Tests", "Tests\Softtek_Invoice_Back.Tests.csproj", "{B8F5A3C2-1D4E-4F6A-9B2C-3E5D7F8A9B0C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{EFA0916D-3FC4-435D-9E4A-018E4EC14689}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EFA0916D-3FC4-435D-9E4A-018E4EC14689}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EFA0916D-3FC4-435D-9E4A-018E4EC14689}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8F5A3C2-1D4E-4F6A-9B2C-3E5D7F8A9B0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8F5A3C2-1D4E-4F6A-9B2C-3E5D7F8A9B0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8F5A3C2-1D4E-4F6A-9B2C-3E5D7F8A9B0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8F5A3C2-1D4E-4F6A-9B2C-3E5D7F8A9B0C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

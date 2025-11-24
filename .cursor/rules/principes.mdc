@@ -1,0 +1,4 @@
+---
+alwaysApply: true
+---
+Toda correção, desenvolvimento e testes deve seguir os princípios de SOLID, DRY, KISS, IAGNI, Clean Code e Presentation–Domain–Data Layering (Martin Fowler) 
