@@ -62,5 +62,33 @@ public class OrderService : IOrderService
 
         return createdOrder;
     }
+
+    public async Task<Order?> GetOrderByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        _logger.LogInformation("Getting order by Id: {OrderId}", id);
+        return await _orderRepository.GetByIdAsync(id, cancellationToken);
+    }
+
+    public async Task<IEnumerable<Order>> GetAllOrdersAsync(CancellationToken cancellationToken = default)
+    {
+        _logger.LogInformation("Getting all orders");
+        return await _orderRepository.GetAllAsync(cancellationToken);
+    }
+
+    public async Task UpdateOrderStatusAsync(Guid orderId, OrderStatus status, CancellationToken cancellationToken = default)
+    {
+        _logger.LogInformation("Updating order {OrderId} status to {Status}", orderId, status);
+        
+        var order = await _orderRepository.GetByIdAsync(orderId, cancellationToken);
+        if (order == null)
+        {
+            throw new InvalidOperationException($"Order {orderId} not found");
+        }
+
+        order.Status = status;
+        await _orderRepository.UpdateAsync(order, cancellationToken);
+        
+        _logger.LogInformation("Order {OrderId} status updated to {Status}", orderId, status);
+    }
 }
 

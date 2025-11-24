@@ -38,27 +38,6 @@ public class OrdersController : ControllerBase
     {
         try
         {
-            if (string.IsNullOrWhiteSpace(request.BranchId))
-            {
-                return BadRequest(ApiResponse<OrderResponse>.ErrorResponse(
-                    "BranchId is required",
-                    new List<string> { "BranchId cannot be empty" }));
-            }
-
-            if (string.IsNullOrWhiteSpace(request.ItemId))
-            {
-                return BadRequest(ApiResponse<OrderResponse>.ErrorResponse(
-                    "ItemId is required",
-                    new List<string> { "ItemId cannot be empty" }));
-            }
-
-            if (request.Quantity <= 0)
-            {
-                return BadRequest(ApiResponse<OrderResponse>.ErrorResponse(
-                    "Quantity must be greater than zero",
-                    new List<string> { "Quantity must be a positive number" }));
-            }
-
             var order = await _orderService.CreateOrderAsync(
                 request.BranchId,
                 request.ItemId,
@@ -102,9 +81,69 @@ public class OrdersController : ControllerBase
         Guid id,
         CancellationToken cancellationToken)
     {
-        // This would require adding a GetByIdAsync method to IOrderService
-        // For now, returning a placeholder
-        return NotFound(ApiResponse<OrderResponse>.ErrorResponse("Order not found"));
+        try
+        {
+            var order = await _orderService.GetOrderByIdAsync(id, cancellationToken);
+            
+            if (order == null)
+            {
+                return NotFound(ApiResponse<OrderResponse>.ErrorResponse("Order not found"));
+            }
+
+            var response = new OrderResponse
+            {
+                Id = order.Id,
+                BranchId = order.BranchId,
+                ItemId = order.ItemId,
+                Quantity = order.Quantity,
+                CreatedAt = order.CreatedAt,
+                Status = order.Status.ToString()
+            };
+
+            return Ok(ApiResponse<OrderResponse>.SuccessResponse(response));
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error getting order {OrderId}", id);
+            return StatusCode(
+                StatusCodes.Status500InternalServerError,
+                ApiResponse<OrderResponse>.ErrorResponse("An error occurred while retrieving the order"));
+        }
+    }
+
+    /// <summary>
+    /// Gets all orders
+    /// </summary>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <returns>List of orders</returns>
+    [HttpGet]
+    [ProducesResponseType(typeof(ApiResponse<IEnumerable<OrderResponse>>), StatusCodes.Status200OK)]
+    public async Task<ActionResult<ApiResponse<IEnumerable<OrderResponse>>>> GetAllOrders(
+        CancellationToken cancellationToken)
+    {
+        try
+        {
+            var orders = await _orderService.GetAllOrdersAsync(cancellationToken);
+            
+            var response = orders.Select(o => new OrderResponse
+            {
+                Id = o.Id,
+                BranchId = o.BranchId,
+                ItemId = o.ItemId,
+                Quantity = o.Quantity,
+                CreatedAt = o.CreatedAt,
+                Status = o.Status.ToString()
+            });
+
+            return Ok(ApiResponse<IEnumerable<OrderResponse>>.SuccessResponse(response));
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error getting all orders");
+            return StatusCode(
+                StatusCodes.Status500InternalServerError,
+                ApiResponse<IEnumerable<OrderResponse>>.ErrorResponse("An error occurred while retrieving orders"));
+        }
     }
 }
 

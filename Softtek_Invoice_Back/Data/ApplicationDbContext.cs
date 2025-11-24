@@ -27,6 +27,12 @@ public class ApplicationDbContext : DbContext
             entity.Property(e => e.Quantity).IsRequired();
             entity.Property(e => e.CreatedAt).IsRequired();
             entity.Property(e => e.Status).IsRequired();
+
+            // Add indexes for better query performance
+            entity.HasIndex(e => e.BranchId).HasDatabaseName("IX_Orders_BranchId");
+            entity.HasIndex(e => e.ItemId).HasDatabaseName("IX_Orders_ItemId");
+            entity.HasIndex(e => e.Status).HasDatabaseName("IX_Orders_Status");
+            entity.HasIndex(e => e.CreatedAt).HasDatabaseName("IX_Orders_CreatedAt");
         });
     }
 }

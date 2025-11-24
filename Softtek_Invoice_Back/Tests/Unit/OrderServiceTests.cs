@@ -1,4 +1,5 @@
 using Moq;
+using Microsoft.Extensions.Logging;
 using Softtek_Invoice_Back.Domain.Entities;
 using Softtek_Invoice_Back.Domain.Events;
 using Softtek_Invoice_Back.Domain.Interfaces;

@@ -29,6 +29,13 @@ public class OrderRepository : IOrderRepository
         return order;
     }
 
+    public async Task<Order> UpdateAsync(Order order, CancellationToken cancellationToken = default)
+    {
+        _context.Orders.Update(order);
+        await _context.SaveChangesAsync(cancellationToken);
+        return order;
+    }
+
     public async Task<IEnumerable<Order>> GetAllAsync(CancellationToken cancellationToken = default)
     {
         return await _context.Orders
